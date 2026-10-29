@@ -106,6 +106,7 @@ const browser = await chromium.launch();
 const page = await browser.newPage();
 let failures = 0;
 let checks = 0;
+let resortFailed = false;
 
 try {
   for (const refactors of variants) {
@@ -125,10 +126,24 @@ try {
       }
     }
   }
+
+  // Quiz and ladder say nth()/first()/li[n] hit another product after a re-sort,
+  // so the re-sort refactor must move every product, the middle one included.
+  const productOrder = async (r) => {
+    await page.goto(`${url}/tests/fixture.html?r=${r}`);
+    await page.waitForFunction(() => window.ready === true);
+    return page.locator('li h3').allTextContents();
+  };
+  const before = await productOrder('');
+  const after = await productOrder('reorder');
+  if (before.some((name, i) => after[i] === name)) {
+    resortFailed = true;
+    console.log(`FAIL re-sort leaves a product in place: ${before.join(', ')} -> ${after.join(', ')}`);
+  }
 } finally {
   await browser.close();
   server.close();
 }
 
 console.log(`parity: ${checks - failures}/${checks} checks match real Playwright (${locators.length} locators x ${variants.length} variants)`);
-process.exit(failures ? 1 : 0);
+process.exit(failures || resortFailed ? 1 : 0);
