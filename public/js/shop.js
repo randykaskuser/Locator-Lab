@@ -103,7 +103,9 @@ export function renderShop(root, options = {}) {
     ),
   );
 
-  const products = on.has('reorder') ? [...PRODUCTS].reverse() : PRODUCTS;
+  // Sort by price, high to low (matches the refactor hint). Moves every position, including the middle one.
+  const priceValue = (p) => Number(p.price.replace(/\D/g, ''));
+  const products = on.has('reorder') ? [...PRODUCTS].sort((a, b) => priceValue(b) - priceValue(a)) : PRODUCTS;
   const cards = products.map((p) => {
     const addAttrs = { class: cls('btn', 'add') };
     const add = on.has('link')
