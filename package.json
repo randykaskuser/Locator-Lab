@@ -1,0 +1,15 @@
+{
+  "name": "playwright-locator-lab",
+  "private": true,
+  "type": "module",
+  "description": "Interactive guide to Playwright locators. Static site, no build step.",
+  "scripts": {
+    "dev": "node tests/dev-server.mjs",
+    "test": "node tests/parity.mjs && node tests/visual.mjs",
+    "test:parity": "node tests/parity.mjs",
+    "test:visual": "node tests/visual.mjs"
+  },
+  "devDependencies": {
+    "playwright": "1.63.0"
+  }
+}

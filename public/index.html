@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Locator Lab: Playwright locators, good and bad</title>
+<meta name="description" content="Try Playwright locators on a live sample app, then refactor the app and see which locators survive.">
+<link rel="canonical" href="https://locator.ranmaul.com/">
+<meta property="og:title" content="Locator Lab: Playwright locators, good and bad">
+<meta property="og:description" content="Try Playwright locators on a live sample app, then refactor the app and see which locators survive.">
+<meta property="og:url" content="https://locator.ranmaul.com/">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#edf0f3">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="css/site.css">
+<script src="js/theme.js"></script>
+</head>
+<body>
+<a class="skip" href="#playground">Skip to playground</a>
+
+<header class="top">
+  <a class="mark" href="/" aria-label="Locator Lab home">
+    <span class="mark-box" aria-hidden="true"></span><span>locator<span class="mark-dim">.lab</span></span>
+  </a>
+  <nav class="top-nav" aria-label="Sections">
+    <a href="#playground" data-i18n="nav.playground">Playground</a>
+    <a href="#break" data-i18n="nav.break">Break it</a>
+    <a href="#ladder" data-i18n="nav.ladder">Ladder</a>
+    <a href="#quiz" data-i18n="nav.quiz">Quiz</a>
+  </nav>
+  <div class="top-actions">
+    <div class="seg" role="group" aria-label="Language">
+      <button type="button" data-lang="en" aria-pressed="true">EN</button>
+      <button type="button" data-lang="id" aria-pressed="false">ID</button>
+    </div>
+    <button type="button" class="icon-toggle" id="theme-toggle" data-i18n-label="theme.toggle" aria-label="Toggle dark mode">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg>
+    </button>
+  </div>
+</header>
+
+<section class="intro">
+  <p class="eyebrow" data-i18n="intro.eyebrow">Playwright locators, for QA engineers</p>
+  <h1 data-i18n="intro.title">A good locator survives the next refactor.</h1>
+  <p class="lead" data-i18n="intro.lead"></p>
+  <ol class="how">
+    <li><span>01</span><span data-i18n="intro.how1">Try a locator</span></li>
+    <li><span>02</span><span data-i18n="intro.how2">Refactor the shop</span></li>
+    <li><span>03</span><span data-i18n="intro.how3">See what survives</span></li>
+  </ol>
+</section>
+
+<main class="page-grid">
+  <section class="block" id="playground" aria-labelledby="pg-title">
+    <header class="block-head">
+      <span class="num">01</span>
+      <h2 id="pg-title" data-i18n="pg.title">Playground</h2>
+    </header>
+    <p class="block-lead" data-i18n="pg.lead"></p>
+
+    <label class="field-label" for="locator-input" data-i18n="pg.label">Locator</label>
+    <div class="editor">
+      <span class="prompt" aria-hidden="true">&gt;</span>
+      <textarea id="locator-input" rows="2" spellcheck="false" autocomplete="off" autocapitalize="off"></textarea>
+    </div>
+    <div class="examples">
+      <span data-i18n="pg.examples">Try:</span>
+      <div id="examples" class="chips"></div>
+    </div>
+
+    <div class="result" id="result" aria-live="polite"></div>
+
+    <div class="row-actions">
+      <button type="button" class="button" id="save-locator" data-i18n="pg.save">Add to break test</button>
+      <button type="button" class="button button-quiet" id="share-locator" data-i18n="pg.share">Copy link</button>
+    </div>
+  </section>
+
+  <aside class="bench" id="bench" aria-label="Sample app">
+    <div class="bench-bar">
+      <div class="bench-title"><strong data-i18n="bench.title">Toko Kopi</strong> <span data-i18n="bench.sub">sample app</span></div>
+      <button type="button" class="button button-quiet button-small" id="reset-refactors" data-i18n="bench.reset">Reset</button>
+    </div>
+    <div class="refactors">
+      <span class="refactors-label" data-i18n="bench.refactor">Refactor</span>
+      <div id="refactors" class="chips" data-refactor-chips></div>
+    </div>
+    <p class="refactor-hint" id="refactor-hint" aria-live="polite"></p>
+    <div class="frame">
+      <div class="frame-chrome" aria-hidden="true"><i></i><i></i><i></i><span>toko-kopi.test</span></div>
+      <div class="frame-body">
+        <div id="shop-root" data-shop></div>
+        <div class="overlay" id="overlay" aria-hidden="true"></div>
+      </div>
+    </div>
+  </aside>
+
+  <section class="block" id="break" aria-labelledby="br-title">
+    <header class="block-head">
+      <span class="num">02</span>
+      <h2 id="br-title" data-i18n="br.title">Break the UI</h2>
+    </header>
+    <p class="block-lead" data-i18n="br.lead"></p>
+    <div class="refactors refactors-inline">
+      <span class="refactors-label" data-i18n="bench.refactor">Refactor</span>
+      <div class="chips" data-refactor-chips></div>
+    </div>
+    <p class="br-summary" id="break-summary" aria-live="polite"></p>
+    <p class="verdict-hint" id="break-hint"></p>
+    <div class="table-wrap">
+      <table class="break-table">
+        <thead>
+          <tr>
+            <th scope="col" data-i18n="br.col.locator">Locator</th>
+            <th scope="col" data-i18n="br.col.before">Before</th>
+            <th scope="col" data-i18n="br.col.after">After</th>
+            <th scope="col" data-i18n="br.col.verdict">Result</th>
+            <th scope="col"><span class="sr-only" data-i18n="br.remove">Remove</span></th>
+          </tr>
+        </thead>
+        <tbody id="break-rows"></tbody>
+      </table>
+    </div>
+    <form class="add-row" id="break-add">
+      <label class="sr-only" for="break-input" data-i18n="br.addLabel">Add your own locator</label>
+      <input id="break-input" class="mono-input" spellcheck="false" autocomplete="off" placeholder="page.getByLabel('Email')">
+      <button type="submit" class="button" data-i18n="br.add">Add</button>
+    </form>
+    <p class="lesson" data-i18n="br.lesson"></p>
+  </section>
+
+  <section class="block" id="ladder" aria-labelledby="ld-title">
+    <header class="block-head">
+      <span class="num">03</span>
+      <h2 id="ld-title" data-i18n="ld.title">The locator ladder</h2>
+    </header>
+    <p class="block-lead" data-i18n="ld.lead"></p>
+    <ol class="ladder" id="ladder-list"></ol>
+  </section>
+
+  <section class="block" id="quiz" aria-labelledby="qz-title">
+    <header class="block-head">
+      <span class="num">04</span>
+      <h2 id="qz-title" data-i18n="qz.title">Good or bad?</h2>
+    </header>
+    <p class="block-lead" data-i18n="qz.lead"></p>
+    <div class="quiz" id="quiz-card"></div>
+  </section>
+</main>
+
+<footer class="foot">
+  <p id="foot-note"></p>
+  <p class="foot-links">
+    <a href="https://playwright.dev/docs/locators" data-i18n="ft.docs">Playwright locator docs</a>
+    <a href="https://ranmaul.com" data-i18n="ft.by">Made by Randy Maulana</a>
+  </p>
+</footer>
+
+<div class="baseline" inert>
+  <div id="shop-baseline" data-shop></div>
+</div>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
