@@ -1,0 +1,29 @@
+{
+  "active_context": {
+    "current_feature_id": "feat-002",
+    "last_updated": "2026-11-17",
+    "summary": "Migrated Personal/locator to Hybrid Harness + ai-memory + graphify. Historical progress logs imported to ai-memory (notes/legacy-progress-history.md).",
+    "blockers": [],
+    "next_step": "Run ./init.sh at session start, review ai-memory context, and pick the next unfinished feature in feature_list.json."
+  },
+  "features": [
+    {
+      "id": "feat-001",
+      "name": "Baseline Setup & Verification",
+      "description": "Confirm repository dependencies, build/test pipeline, and Hybrid Harness + ai-memory + graphify integration pass",
+      "dependencies": [],
+      "status": "done",
+      "evidence": "./init.sh and validate-harness.mjs verified (2026-11-17)"
+    },
+    {
+      "id": "feat-002",
+      "name": "Next Feature / Enhancement",
+      "description": "Implement the next requested feature or bugfix within scope",
+      "dependencies": [
+        "feat-001"
+      ],
+      "status": "not-started",
+      "evidence": ""
+    }
+  ]
+}

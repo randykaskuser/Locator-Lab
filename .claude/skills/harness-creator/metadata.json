@@ -1,0 +1,65 @@
+{
+  "name": "harness-creator",
+  "version": "1.1.0",
+  "description": "Hybrid Harness Engineering + ai-memory skill for AI coding agents — five subsystems, structured feature/evidence tracking, fail-fast verification workflows, scope control, and automated cross-agent memory/handoffs via ai-memory without progress.md repo noise.",
+  "license": "MIT",
+  "author": "Learn Harness Engineering (Hybrid ai-memory Edition)",
+  "repository": "https://github.com/randykaskuser/learn-harness-engineering",
+  "languages": ["en", "zh"],
+  "compatibility": {
+    "minCliVersion": "0.1.0",
+    "agents": [
+      "claude-code",
+      "codex-cli",
+      "cursor",
+      "windsurf",
+      "antigravity",
+      "gemini-cli",
+      "generic"
+    ]
+  },
+  "entryPoint": "SKILL.md",
+  "references": [
+    "references/memory-persistence-pattern.md",
+    "references/context-engineering-pattern.md",
+    "references/skill-runtime-pattern.md",
+    "references/tool-registry-pattern.md",
+    "references/multi-agent-pattern.md",
+    "references/lifecycle-bootstrap-pattern.md",
+    "references/gotchas.md"
+  ],
+  "triggers": [
+    "harness engineering",
+    "ai-memory",
+    "agent reliability",
+    "session continuity",
+    "memory persistence",
+    "verification workflow",
+    "scope control",
+    "lifecycle management",
+    "AGENTS.md",
+    "CLAUDE.md",
+    "feature tracking",
+    "session handoff",
+    "multi-agent coordination",
+    "context engineering",
+    "tool safety",
+    "permission pipeline"
+  ],
+  "bundled": {
+    "scripts": [
+      "scripts/create-harness.mjs",
+      "scripts/validate-harness.mjs",
+      "scripts/render-assessment-html.mjs",
+      "scripts/run-benchmark.mjs",
+      "scripts/lib/harness-utils.mjs"
+    ],
+    "assets": [],
+    "templates": [
+      "templates/agents.md",
+      "templates/feature-list.json",
+      "templates/feature-list.schema.json",
+      "templates/init.sh"
+    ]
+  }
+}
